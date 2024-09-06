@@ -58,7 +58,7 @@ Abra con un editor de texto el archivo ``.gitignore`` que se encuentra en la ra√
 
    <div align="center">
   <a>
-    <img src="imgs/key8.png">
+    <img src="imgs/keyGoogle8.png">
   </a>
   </div>
 
