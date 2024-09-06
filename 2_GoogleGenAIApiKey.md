@@ -8,7 +8,7 @@ Para crear la API key en openAI, debe ingresar con su cuenta de google a la pág
   </a>
   </div>
 
-  En esta nueva pantalla debe hacer clic en ``Crear una clave de API`` 
+  En esta nueva pantalla debe hacer clic en ``Crear clave de API`` 
 
    <div align="center">
   <a>
@@ -27,7 +27,13 @@ Para crear la API key en openAI, debe ingresar con su cuenta de google a la pág
   
    <div align="center">
   <a>
-    <img src="imgs/key4.png">
+    <img src="imgs/keyGoogle5.png">
+  </a>
+  </div>
+
+   <div align="center">
+  <a>
+    <img src="imgs/keyGoogle4.png">
   </a>
   </div>
 
