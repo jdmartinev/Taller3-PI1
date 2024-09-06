@@ -1,4 +1,3 @@
-/openAI.env
-/gemini.env
+/api_keys.env
 /DjangoProjectBase2/*
 /TutorialGoogle/*
