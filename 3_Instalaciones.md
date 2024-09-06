@@ -13,7 +13,7 @@ Abra el archivo ``requirements.txt``. Notará que este archivo tiene la siguient
 
  <div align="center">
   <a>
-    <img src="imgs/install1.png">
+    <img src="imgs/install.png">
   </a>
   </div>
 
