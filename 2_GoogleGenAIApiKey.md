@@ -42,7 +42,7 @@ Almacene este archivo en la carpeta raíz del proyecto
 
    <div align="center">
   <a>
-    <img src="imgs/key7.png">
+    <img src="imgs/keyGoogle7.png">
   </a>
   </div>
 
