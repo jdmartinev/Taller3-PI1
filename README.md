@@ -14,6 +14,7 @@ Las instrucciones de cada etapa del proyecto son las siguientes:
 4. [Descripción de las películas](4_movie_descriptions.md)
 5. [Ilustraciones de las películas](5_movie_pictures.md)
 6. [Sistema de recomendación](6_recommendation_system.md)
+7. [Alternativas open source](7_open_source.md)
 
 ### Entregable en clase 
 

@@ -34,21 +34,19 @@ Al ejecutar el Script puede ver lo siguiente:
 
 En este caso, los embeddings nos dicen que Salvar al soldado Ryan es más parecido a la Lista Schindler. Tiene sentido porque las dos películas son de la segunda guerra mundial. 
 
+En las líneas 34 a 42 del script se generan los embeddings de las descripciones de las películas en la base de datos y se almacenan en el archivo [movie_descriptions_embeddings.json](movie_descriptions_embeddings.json).
+
 El script [movie_recommendations.py](movie_recommendations.py) muestra cómo podemos utilizar los embeddings y la similitud de coseno para recomendar películas a partir de un prompt.
 
-Al ejecutar el Script donde el prompt dice ``película de un pianista` puede ver lo siguiente:
+Al ejecutar el Script donde el prompt dice ``película de un pianista`` puede ver lo siguiente:
 
 ![Fork 1](imgs/sr3a.png)
 
-En este caso, los embeddings nos dicen quesi queremos ver una película de un pianista deberíamos ver El Pianista. 
+En este caso, los embeddings nos dicen que si queremos ver una película de un pianista deberíamos ver El Pianista. Intente com prompts diferentes para encontrar películas menos obvias. 
 
-Ahora, se deben agregar estos embeddings a la base de datos para poder hacer este tipo de búsquedas.
+Ahora, se deben agregar estos embeddings a la base de datos para poder hacer este tipo de búsquedas. Dado que un vector no se puede agregar directamente a la base de datos, deberá crear un archivo binario que se pueda almacenar como un campo de tipo __BinaryField__.
 
-Modifique el modelo Movie y agregue un campo adicional que sea el embedding de la descripción.
-
-Un vector no se puede agregar directamente a la base de datos, por lo tanto, deberá crear un archivo binario que pueda almacenar como un campo de tipo __BinaryField__.
-
-En el siguiente ejemplo puede ver cómo crear un archivo binario a partir de una lista y como recuperar la lista a partir del archivo binario, este ejemplo es ilustrativo, no es necesario ejecutarlo.
+En el siguiente ejemplo puede ver cómo crear un archivo binario a partir de una lista y cómo recuperar la lista a partir del archivo binario, este ejemplo es ilustrativo, no es necesario ejecutarlo.
 
 ````python
 import numpy as np
@@ -73,7 +71,7 @@ emb_binary = np.array(emb).tobytes()
 rec_emb = list(np.frombuffer(emb_binary, dtype=arr.dtype))
 ````
 
-El modelo Movie lo debe modificar de la siguiente forma:
+Modifique el modelo Movie de la siguiente forma:
 
 ````python
 from django.db import models

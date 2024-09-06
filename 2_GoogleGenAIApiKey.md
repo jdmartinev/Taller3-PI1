@@ -1,30 +1,30 @@
 ## Creación de la API key
 
-Para crear la API key en openAI, debe ingresar con su cuenta a la página de openAI https://openai.com/ e ingresar al link API.
+Para crear la API key en openAI, debe ingresar con su cuenta de google a la página de [GoogleAI](https://ai.google.dev/gemini-api/docs/api-key?hl=es-419) 
 
  <div align="center">
   <a>
-    <img src="imgs/key1.png">
+    <img src="imgs/keyGoogle1.png">
   </a>
   </div>
 
-Ingresar a ``View API keys`` 
+Ingresar a ``Obtén una clave de API`` 
 
    <div align="center">
   <a>
-    <img src="imgs/key2.png">
+    <img src="imgs/keyGoogle2.png">
   </a>
   </div>
 
-  En esta nueva pantalla debe hacer clic en ``Create new secret key`` 
+  En esta nueva pantalla debe hacer clic en ``Crear una clave de API en un proyecto nuevo`` 
 
    <div align="center">
   <a>
-    <img src="imgs/key3.png">
+    <img src="imgs/keyGoogle3.png">
   </a>
   </div>
 
-  Allí debe ingresar un nombre para su API key, por ejemplo ``workshop3``
+  Copiar la API y almacenarla en el archivo `api_keys.env`
   
    <div align="center">
   <a>
@@ -32,27 +32,6 @@ Ingresar a ``View API keys``
   </a>
   </div>
 
-Copie la API key y haga clic en ``Done``. Tenga en cuenta que después de cerrar esta ventana no tendrá de nuevo acceso a esta llave, por lo que debe almacenarla en algún documento.
-
-   <div align="center">
-  <a>
-    <img src="imgs/key5.png">
-  </a>
-  </div>
-
-Almacene su API key en un documento ``.env``, por ejemplo ``openAI.env``. Esto lo puede hacer en un editor de texto como Sublime o VScode 
-
-La estructura del archivo .env debe ser la siguiente:
-
-````shell
-openAI_api_key = skXXXXXXXXXXX
-````
-
-   <div align="center">
-  <a>
-    <img src="imgs/key6.png">
-  </a>
-  </div>
   
 Almacene este archivo en la carpeta raíz del proyecto
 

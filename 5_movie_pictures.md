@@ -3,15 +3,15 @@
 Ahora se utilizará la API de generación de imágenes de openAI para crear ilustraciones de las películas y modificar la imagen por defecto que se tiene en la base de datos.
 Primero, se utilizará un script para entender el funcionamiento de la API y después se verá cómo se podría utilizar para modificar las imágenes de la base de datos.
 
-En la consola va a volver al directorio raíz ``ProyectoPeliculas2023-2_Taller3``
+En la consola vuelva al directorio raíz ``Taller3-PI1``
 
 ````shell
 cd ..
 ````
 
-El script [movie_pictures.py](movie_pictures.py) muestra cómo conectarse a la API de generación de imágenes. En este caso, vamos a utilizar el título de la película como __prompt__, sin embargo, usted puede generar diferentes prompts para generar mejores ilustraciones, o utilizar la descripción de las películas.
+El script [movie_pictures.py](movie_pictures.py) muestra cómo conectarse a la API de generación de imágenes. En este caso, vamos a utilizar el título de la película como __prompt__, sin embargo, usted puede usar diferentes prompts para generar mejores ilustraciones, o utilizar la descripción de las películas.
 
-Cuando ejecute este script, debe ver en la consola el nombre de la película, la descripción y en una ventana a parte la ilustración creada por la API
+Cuando ejecute este script, debe ver en la consola el nombre de la película, la descripción y la ilustración creada por la API
 
 ![Fork 1](imgs/mp1a.png)
 
