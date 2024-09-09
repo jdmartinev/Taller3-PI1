@@ -8,6 +8,7 @@ from dotenv import load_dotenv, find_dotenv
 from PIL import Image
 import requests
 
+
 import google.generativeai as genai
 
 # Definición de funciones

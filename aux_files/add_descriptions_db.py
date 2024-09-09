@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from movie.models import Movie
+from DjangoProjectBase.movie.models import Movie
 import json
 import os
 import numpy as np

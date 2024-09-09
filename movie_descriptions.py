@@ -1,57 +1,53 @@
-#importar librerías
 import os
-from openai import OpenAI
 import json
-from dotenv import load_dotenv, find_dotenv
+from PIL import Image
+from io import BytesIO
+import numpy as np
+from dotenv import load_dotenv
 
-#Se lee del archivo .env la api key de openai
-_ = load_dotenv('openAI.env')
-client = OpenAI(
-    # This is the default and can be omitted
-    api_key=os.environ.get('openAI_api_key'),
-)
+import google.generativeai as genai
+import requests
 
-#Se carga la lista de películas de movie_titles.json
+# Se leen las claves API desde el archivo .env
+_ = load_dotenv('api_keys.env')
+genai.configure(api_key=os.environ.get('gemini_api_key'))
+hf_api_key = os.environ.get('hf_api_key')
+
+
+# Se carga la lista de películas desde el archivo movie_titles.json
 with open('movie_titles.json', 'r') as file:
     file_content = file.read()
     movies = json.loads(file_content)
 
-print(movies[0])
 
 
-#Se genera una función auxiliar que ayudará a la comunicación con la api de openai
-#Esta función recibe el prompt y el modelo a utilizar (por defecto gpt-3.5-turbo)
-#devuelve la consulta hecha a la api
+# Selecciona un modelo de Google Generative AI
+model = genai.GenerativeModel('gemini-pro')
 
-def get_completion(prompt, model="gpt-3.5-turbo"):
-    messages = [{"role": "user", "content": prompt}]
-    response = client.chat.completions.create(
-        model=model,
-        messages=messages,
-        temperature=0,
-    )
-    return response.choices[0].message.content
+# Selección aleatoria de una película
+idx_movie = np.random.randint(len(movies) - 1)
+movie = movies[idx_movie]
+movie_title = movie["title"]
+print(f"Título de la película seleccionada: {movie_title}")
 
-#Definimos una instrucción general que le vamos a dar al modelo 
+# Instrucción para la IA generativa
+instruction = """
+Vas a actuar como un aficionado del cine que sabe describir de forma clara, concisa y precisa cualquier película en menos de 200 palabras. 
+La descripción debe incluir el género de la película y cualquier información adicional que sirva para crear un sistema de recomendación.
+"""
 
-instruction = "Vas a actuar como un aficionado del cine que sabe describir de forma clara, concisa y precisa \
-cualquier película en menos de 200 palabras. La descripción debe incluir el género de la película y cualquier \
-información adicional que sirva para crear un sistema de recomendación."
 
-instruction_genre = "Vas a calificar la película en un género específico"
+# Crear el prompt
+prompt = f"{instruction} Haz una descripción de la película {movie_title}"
 
-instruction_year = "Si sabes, vas a decir el año de lanzamiento de la película. Por favor únicamente el año de forma que se pueda convertir en un dato numérico"
+# Generar la descripción con Google Generative AI
+response = model.generate_content(prompt)
 
-#Definimos el prompt
-movie = movies[0]['title']
-prompt = f"{instruction} Has una descripción de la película {movie}"
+# Mostrar la descripción generada
+print(f"Descripción generada: {response.text}")
 
-print(prompt)
+#######################################################
 
-#Utilizamos la función para comunicarnos con la api
-response = get_completion(prompt)
-
-print(response)
 
 
 # Podemos iterar sobre todas las películas para generar la descripción. Dado que esto 
