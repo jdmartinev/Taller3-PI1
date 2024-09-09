@@ -1,12 +1,12 @@
 ## Descripciones de películas
 
-En esta etapa del proyecto se utilizará la API de OpenAI para generar descripciones de algunas películas que se agregarán a la base de datos.
+En esta etapa del proyecto se utilizará la API de Google Gemini para generar descripciones de algunas películas que se agregarán a la base de datos.
 Para esto, el archivo ``movie_titles.json`` tiene una lista de películas a las que se le agregará información.
 
-El archivo [movie_descriptions.py](movie_descriptions.py) muestra los pasos para utilizar la API de OpenAI para obtener la descripción de las películas que se encuentran en la lista.
+El archivo [movie_descriptions.py](movie_descriptions.py) muestra los pasos para utilizar la API de Google para obtener la descripción de las películas que se encuentran en la lista.
 En este archivo se pueden ver dos funcionalidades principales:
 
-1. Definición de una función auxiliar (__get_completion__) para comunicarse con la API
+1. Definición de una función auxiliar (GenativeModel) para comunicarse con la API
 2. Creación de un __prompt__ que nos ayuda a pedir de forma correcta la descripción de las películas
 
 Ejecute el script, para esto debe dirigirse en la consola a la ubicación del archivo y escribir:
@@ -17,7 +17,8 @@ python movie_descriptions.py
 
 Cuando ejecute el script, deberá ver en la consola algo de la siguiente forma:
 
-![Fork 1](imgs/md1.png)
+![image](https://github.com/user-attachments/assets/fe5335ce-4bbf-419e-80d0-ad6647eb4ba1)
+
 
 Puede ver que se imprime el nombre de la película, el prompt completo y la descripción obtenida.
 
