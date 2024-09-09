@@ -1,49 +1,51 @@
-#importar librerías
 import os
-from openai import OpenAI
 import json
-from dotenv import load_dotenv, find_dotenv
 import requests
+from dotenv import load_dotenv
 from PIL import Image
 from io import BytesIO
 import numpy as np
 
-#Se lee del archivo .env la api key de openai
-_ = load_dotenv('openAI.env')
-client = OpenAI(
-    # This is the default and can be omitted
-    api_key=os.environ.get('openAI_api_key'),
-)
+# Cargar la clave API desde el archivo .env
+_ = load_dotenv('huggingface.env')
+hf_api_key = os.environ.get('huggingface_api_key')
 
-#Se carga la lista de películas de movie_titles.json
+# URL de la API de Hugging Face para Stable Diffusion XL
+API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
+headers = {"Authorization": f"Bearer {hf_api_key}"}
+
+# Función para hacer la consulta a Hugging Face
+def query(payload):
+    response = requests.post(API_URL, headers=headers, json=payload)
+    
+    # Verificar si la solicitud fue exitosa
+    if response.status_code != 200:
+        raise Exception(f"Error en la solicitud a Hugging Face API: {response.status_code} - {response.text}")
+    
+    return response.content
+
+# Se carga la lista de películas desde el archivo movie_descriptions.json
 with open('movie_descriptions.json', 'r') as file:
-    file_content = file.read()
-    movies = json.loads(file_content)
+    movies = json.load(file)
 
-idx_movie = np.random.randint(len(movies)-1)
-print(movies[idx_movie])
+# Seleccionar aleatoriamente una película
+idx_movie = np.random.randint(len(movies) - 1)
+selected_movie = movies[idx_movie]
+print(f"Título de la película seleccionada: {selected_movie['title']}")
 
-#Se hace la conexión con la API de generación de imágenes. El prompt en este caso es:
-#Alguna escena de la película + "nombre de la película"
-response = client.images.generate(
-  model="dall-e-3",
-  prompt=f"Portada de la película {movies[np.random.randint(idx_movie)]['title']}",
-  size="1024x1024",
-  quality="standard",
-  n=1,
-)
+# Preparar el prompt para generar la imagen
+prompt = f"Portada de la película {selected_movie['title']}"
 
-image_url = response.data[0].url
+# Hacer la consulta a la API de Hugging Face
+image_bytes = query({"inputs": prompt})
 
-# La API devuelve la url de la imagen, por lo que debemos generar una función auxiliar que
-# descargue la imagen.
-def fetch_image(url):
-    response = requests.get(url)
-    response.raise_for_status()
-
-    # Convert the response content into a PIL Image
-    image = Image.open(BytesIO(response.content))
-    return(image)
-
-img = fetch_image(image_url)
-img.show()
+# Verificar si el contenido recibido es una imagen válida
+try:
+    # Convertir la respuesta en una imagen con PIL
+    image = Image.open(BytesIO(image_bytes))
+    
+    # Mostrar la imagen generada
+    image.show()
+except Exception as e:
+    print("Error al generar la imagen:", e)
+    print("Contenido recibido:", image_bytes[:500])  # Muestra los primeros 500 bytes para depuración

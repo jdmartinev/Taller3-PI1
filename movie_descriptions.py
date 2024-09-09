@@ -1,79 +1,78 @@
 import os
 import json
-from PIL import Image
-from io import BytesIO
-import numpy as np
+import time  # Para introducir pausas entre solicitudes
 from dotenv import load_dotenv
-
 import google.generativeai as genai
-import requests
 
 # Se leen las claves API desde el archivo .env
 _ = load_dotenv('api_keys.env')
 genai.configure(api_key=os.environ.get('gemini_api_key'))
-hf_api_key = os.environ.get('hf_api_key')
-
 
 # Se carga la lista de películas desde el archivo movie_titles.json
 with open('movie_titles.json', 'r') as file:
     file_content = file.read()
     movies = json.loads(file_content)
 
-
-
 # Selecciona un modelo de Google Generative AI
 model = genai.GenerativeModel('gemini-pro')
 
-# Selección aleatoria de una película
-idx_movie = np.random.randint(len(movies) - 1)
-movie = movies[idx_movie]
-movie_title = movie["title"]
-print(f"Título de la película seleccionada: {movie_title}")
-
-# Instrucción para la IA generativa
+# Instrucción para la IA generativa con un prompt seguro
 instruction = """
-Vas a actuar como un aficionado del cine que sabe describir de forma clara, concisa y precisa cualquier película en menos de 200 palabras. 
-La descripción debe incluir el género de la película y cualquier información adicional que sirva para crear un sistema de recomendación.
+Proporciona una breve y objetiva descripción de la película en menos de 100 palabras.
+La descripción debe ser completamente neutral, sin contenido explícito, inapropiado o dañino, y debe centrarse únicamente en
+los detalles de la trama y los géneros cinematográficos. No incluyas opiniones, juicios de valor o temas sensibles.
+Recuerda no usar tildes ni simbolos para evitar conflictos con mi app
 """
 
+instruction_genre = "El género de la película es:"
+instruction_year = "El año de lanzamiento de la película es:"
 
-# Crear el prompt
-prompt = f"{instruction} Haz una descripción de la película {movie_title}"
+# Función auxiliar para manejar el contenido generado y comprobar los safety_ratings
+def generar_contenido(prompt):
+    try:
+        response = model.generate_content(prompt)
+        # Verificar si hay candidatos y si hay alguna restricción de seguridad
+        if response.candidates and hasattr(response.candidates[0], 'safety_ratings'):
+            print(f"Safety ratings: {response.candidates[0].safety_ratings}")
+        # Si no hay bloqueo, devolver el texto
+        if hasattr(response, 'text') and response.text:
+            return response.text.strip()
+    except Exception as e:
+        print(f"Error al generar contenido: {e}")
+    return "No disponible"
 
-# Generar la descripción con Google Generative AI
-response = model.generate_content(prompt)
+# Iterar sobre las primeras 8 películas, agregando pausas
+for i in range(8):
+    print(f"Procesando película {i+1}: {movies[i]['title']}")
 
-# Mostrar la descripción generada
-print(f"Descripción generada: {response.text}")
+    # Generar la descripción de la película
+    prompt_description = f"{instruction} Haz una descripción de la película {movies[i]['title']}"
+    descripcion = generar_contenido(prompt_description)
+    movies[i]['description'] = descripcion
+    
+    # Generar el género de la película
+    prompt_genre = f"{instruction_genre} {movies[i]['title']}"
+    genero = generar_contenido(prompt_genre)
+    movies[i]['genre'] = genero
+    
+    # Generar el año de lanzamiento de la película
+    prompt_year = f"{instruction_year} {movies[i]['title']}"
+    year = generar_contenido(prompt_year)
+    movies[i]['year'] = year
+    
+    # Mostrar la película procesada
+    print(f"Título: {movies[i]['title']}")
+    print(f"Género: {movies[i]['genre']}")
+    print(f"Año: {movies[i]['year']}")
+    print(f"Descripción: {movies[i]['description']}")
+    print(f"Pelicula {i+1} de 8 procesada")
 
-#######################################################
+    # Introducir una pausa de 3 segundos para no superar el límite de solicitudes
+    time.sleep(3)
 
-
-
-# Podemos iterar sobre todas las películas para generar la descripción. Dado que esto 
-#puede tomar bastante tiempo, el archivo con las descripciones para todas las películas es movie_descriptions.json
-""""
-for i in range(len(movies)):
-    prompt =  f"{instruction} Has una descripción de la película {movies[i]['title']}"
-    response = get_completion(prompt)
-    movies[i]['description'] = response 
-    prompt = f"{instruction_genre} Género de la película {movies[i]['title']}"
-    response = get_completion(prompt)
-    movies[i]['genre'] = response   
-    prompt = f"{instruction_year} Año de lanzamiento de la película {movies[i]['title']}"
-    response = get_completion(prompt)
-    movies[i]['year'] = response
-    print(movies[i]['title'])
-    print(movies[i]['genre'])
-    print(movies[i]['year'])
-
-    print(f"pelicula {i} de {len(movies)}")
-
+# Guardar los datos en un archivo JSON
 file_path = "movie_descriptions.json"
-
-# Write the data to the JSON file
 with open(file_path, 'w') as json_file:
-    json.dump(movies, json_file, indent=4)  # The 'indent' parameter is optional for pretty formatting
+    json.dump(movies[:8], json_file, indent=4)
 
-print(f"Data saved to {file_path}")
-"""
+print(f"Datos guardados en {file_path}")
