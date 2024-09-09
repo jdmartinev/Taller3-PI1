@@ -56,11 +56,13 @@ python manage.py add_descriptions_db
 ````
 Cuando termine de ejecutarse, debe ver un mensaje como el siguiente:
 
-![Fork 1](imgs/md4a.png)
+![image](https://github.com/user-attachments/assets/10a58c65-69aa-4d91-a687-577f6d54f1d6)
+
 
 Puede ejecutar el servidor y verá algo de la siguiente forma:
 
-![Fork 1](imgs/md7a.png)
+![image](https://github.com/user-attachments/assets/5316457f-75e8-41fa-8a17-719b5adba823)
+
 
 Además puede ir a la página de administrador 127.0.0.1:8000/admin/ y cuando ingrese con las credenciales podrá observar que las películas quedaron correctamente almacenadas en la base de datos. Además, puede ingresar a alguna de ellas y ver la descripción
 
