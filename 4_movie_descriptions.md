@@ -61,7 +61,8 @@ Cuando termine de ejecutarse, debe ver un mensaje como el siguiente:
 
 Puede ejecutar el servidor y verá algo de la siguiente forma:
 
-![image](https://github.com/user-attachments/assets/5316457f-75e8-41fa-8a17-719b5adba823)
+![image](https://github.com/user-attachments/assets/15bcf7a0-9796-4bc7-814b-abca23de2b3e)
+
 
 
 Además puede ir a la página de administrador 127.0.0.1:8000/admin/ y cuando ingrese con las credenciales podrá observar que las películas quedaron correctamente almacenadas en la base de datos. Además, puede ingresar a alguna de ellas y ver la descripción
