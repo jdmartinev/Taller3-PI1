@@ -34,3 +34,12 @@ Después, desde la consola ubicada en la carpeta donde se encuentra el archivo `
   </div>
 
 Después de unos segundos la instalación debe quedar completa.
+
+Puedes verificar con el siguiente comando pip si estan instalados todos los paquetes necesarios
+
+``pip list``
+
+![image](https://github.com/user-attachments/assets/36b8e843-ba84-45ee-a8d8-204760114c02)
+
+
+**RECUERDA:** Si estás usando un entorno virtual (virtualenv), asegúrate de activarlo antes de ejecutar el comando para ver los paquetes instalados en ese entorno.
